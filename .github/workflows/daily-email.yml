@@ -1,0 +1,31 @@
+name: Daily USD→CAD Email
+
+on:
+  schedule:
+    - cron: '15 3 * * *'  # 7:15 PM PST / 10:15 PM EST
+  workflow_dispatch:
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-dotenv
+
+      - name: Run script
+        env:
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+        run: python usd_to_cad_emailer.py
