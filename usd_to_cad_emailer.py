@@ -8,9 +8,12 @@ from email.message import EmailMessage
 # Settings
 API_URL = "https://api.frankfurter.app/latest?from=USD&to=CAD"
 CSV_FILENAME = "usd_to_cad_history.csv"
-EMAIL_FROM = "Graham@GoodShip.io"
-EMAIL_TO = "Graham@GoodShip.io"
-APP_PASSWORD = "bdsrmffefgqrcjbm"
+from dotenv import load_dotenv
+load_dotenv()
+
+EMAIL_FROM = os.getenv("EMAIL_FROM")
+EMAIL_TO = os.getenv("EMAIL_TO")
+APP_PASSWORD = os.getenv("APP_PASSWORD")
 
 # Step 1: Get the rate
 resp = requests.get(API_URL)
